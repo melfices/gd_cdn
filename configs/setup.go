@@ -12,7 +12,7 @@ import (
 )
 
 func ConnectDB() *mongo.Client {
-	LoadEnv()
+	// LoadEnv()
 	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGOURI")))
 	if err != nil {
 		log.Fatal(err)

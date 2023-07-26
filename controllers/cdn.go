@@ -4,6 +4,7 @@ import (
 	//other import goes here
 	"context"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var cdnCollection *mongo.Collection = configs.GetCollection(configs.DB, "tb_cdn_pool")
+var cdnCollection *mongo.Collection = configs.GetCollection(configs.DB, os.Getenv("COLLECTION"))
 
 func GetCDN() gin.HandlerFunc {
 	return func(c *gin.Context) {
