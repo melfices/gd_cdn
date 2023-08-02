@@ -4,12 +4,20 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type CDNParam struct {
+	CDN string `json:"cdn"`
+}
+
+type SysType struct {
+	Type string `json:"type"`
+}
+
 type CDN struct {
 	Id              primitive.ObjectID `json:"id,omitempty"`
 	CDN             string             `json:"cdn,omitempty" validate:"required"`
 	Create_system   string             `json:"create_system,omitempty" validate:"required"`
 	Ip_address      string             `json:"ip_address,omitempty" validate:"required"`
-	Datetime_create primitive.DateTime `json:"datetime_create,omitempty" validate:"required"`
+	Datetime_create string             `json:"datetime_create,omitempty" validate:"required"`
 	Detail          Detail             `json:"detail"`
 }
 
