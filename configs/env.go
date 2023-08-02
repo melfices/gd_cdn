@@ -2,13 +2,29 @@ package configs
 
 import (
 	"log"
+	"os"
 
 	"github.com/joho/godotenv"
 )
 
-func LoadEnv() {
+func EnvMongoURI() string {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	return os.Getenv("MONGOURI")
+}
+func EnvDBNAME() string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	return os.Getenv("DBNAME")
+}
+func EnvCollection() string {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	return os.Getenv("COLLECTION")
 }

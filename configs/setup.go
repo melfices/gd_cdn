@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,7 +12,7 @@ import (
 
 func ConnectDB() *mongo.Client {
 	// LoadEnv()
-	client, err := mongo.NewClient(options.Client().ApplyURI(os.Getenv("MONGOURI")))
+	client, err := mongo.NewClient(options.Client().ApplyURI(EnvMongoURI()))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -40,7 +39,7 @@ var DB *mongo.Client = ConnectDB()
 
 // getting database collections
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	collection := client.Database(os.Getenv("DBNAME")).Collection(collectionName)
+	collection := client.Database(EnvDBNAME()).Collection(collectionName)
 
 	return collection
 }
