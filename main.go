@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 
-	"github.com/gin-gonic/gin"
+	"go_cdn/configs"
+	"go_cdn/routes"
+
 	"github.com/joho/godotenv"
-	"github.com/melfices/go_cdn/configs"
-	"github.com/melfices/go_cdn/routes"
+	"github.com/labstack/echo/v4"
 )
 
 func init() {
@@ -16,9 +17,20 @@ func init() {
 	}
 }
 
+//	func main() {
+//		router := gin.Default()
+//		configs.ConnectDB()
+//		routes.CDNRoute(router)
+//		router.Run("localhost:3000")
+//	}
 func main() {
-	router := gin.Default()
+	e := echo.New()
+
+	//run database
 	configs.ConnectDB()
-	routes.CDNRoute(router)
-	router.Run("localhost:3000")
+
+	//routes
+	routes.CDNRoute(e)
+
+	e.Logger.Fatal(e.Start(":3000"))
 }

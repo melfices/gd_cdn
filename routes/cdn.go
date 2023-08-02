@@ -1,10 +1,11 @@
 package routes
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/melfices/go_cdn/controllers"
+	"go_cdn/controllers"
+
+	"github.com/labstack/echo/v4"
 )
 
-func CDNRoute(router *gin.Engine) {
-	router.POST("/getcdn", controllers.GetCDN())
+func CDNRoute(e *echo.Echo) {
+	e.POST("/getcdn", controllers.Hello)
 }
