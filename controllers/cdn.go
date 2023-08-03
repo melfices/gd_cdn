@@ -8,7 +8,9 @@ import (
 	"go_cdn/configs" //add this
 	"go_cdn/models"
 	"go_cdn/responses"
+	"go_cdn/utils"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -30,7 +32,7 @@ func GetCDNDetail(c echo.Context) error {
 	}
 	fmt.Println(cdn_param)
 	var cdn models.CDN
-	filter := bson.D{{"cdn", cdn_param.CDN}}
+	filter := bson.D{{Key: "cdn", Value: cdn_param.CDN}}
 	err := cdnCollection.FindOne(ctx, filter).Decode(&cdn)
 
 	if err != nil {
@@ -47,9 +49,13 @@ func GetCDN(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "bad request")
 	}
 	d := time.Now()
-	dstr := fmt.Sprintf("%02d%02d%02d", d.Year(), d.Month(), d.Day())
-
-	fmt.Println(dstr)
+	twodigityear := d.Year() % 1e2
+	dstr := fmt.Sprintf("%02d%02d%02d", twodigityear, d.Month(), d.Day())
+	rdigit, _ := utils.GenRanDigit()
+	cdn := dstr + rdigit
+	chkdigit := strconv.Itoa(utils.CheckDigit(cdn))
+	cdn = cdn + chkdigit
+	fmt.Println(cdn)
 	// var cdn models.CDN
 	// filter := bson.D{{"cdn", cdn_param.CDN}}
 	// err := cdnCollection.FindOne(ctx, filter).Decode(&cdn)
@@ -57,6 +63,5 @@ func GetCDN(c echo.Context) error {
 	// if err != nil {
 	// 	return c.JSON(http.StatusInternalServerError, responses.UserResponse{Status: http.StatusInternalServerError, Message: "error", Data: &echo.Map{"data": err.Error()}})
 	// }
-
 	return c.JSON(http.StatusOK, responses.UserResponse{Status: http.StatusOK, Message: "success", Data: &echo.Map{"data": d}})
 }
